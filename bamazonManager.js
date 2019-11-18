@@ -19,10 +19,10 @@ const connection = mysql.createConnection({
 connection.connect(function(err) {
     if (err) throw err;
     // console.log("connected as id " + connection.threadId);
-    readProducts();
+    displayProducts();
   });
   
-function readProducts() {
+function displayProducts() {
   connection.query("SELECT * FROM products", function(err, res) {
     if (err) throw err;
       console.log("\n Welcome to Bamazon");
@@ -31,23 +31,8 @@ function readProducts() {
         console.log(res[i].item_id + "|" + res[i].product_name + "|" + res[i].department_name + "|" + res[i].price + "|" +res[i].stock_quantity);
       }
       console.log("\n");
-      buyProducts();
+      
+
       connection.end();
   });
-}
-
-function buyProducts(){
-  inquirer
-    .prompt([ 
-      {
-        name: "buy",
-        message: "What do you want to buy? Please enter the item id"
-      }, {
-        name: "quantity",
-        message: "How many items do you want to buy?"
-      }
-    ]).then(function(answers){
-      console.log(answers.buy + " "  + answers.quantity);
-
-    })
 }

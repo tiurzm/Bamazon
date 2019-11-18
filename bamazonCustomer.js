@@ -19,10 +19,10 @@ const connection = mysql.createConnection({
 connection.connect(function(err) {
     if (err) throw err;
     // console.log("connected as id " + connection.threadId);
-    idProducts();
+    displayProducts();
   });
   
-function idProducts() {
+function displayProducts() {
   connection.query("SELECT * FROM products", function(err, res) {
     if (err) throw err;
       console.log("\n Welcome to Bamazon\n--------------------");
