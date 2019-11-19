@@ -20,7 +20,7 @@ connection.connect(function(err) {
     if (err) throw err;
     // console.log("connected as id " + connection.threadId);
     displayProducts();
-  });
+});
   
 function displayProducts() {
   connection.query("SELECT * FROM products", function(err, res) {
@@ -66,12 +66,14 @@ function buyProducts(){
       let chosenProducts = res.find(row => row.item_id === chosenId); 
       // console.log(chosenProducts);
       let newQuantity = chosenProducts.stock_quantity - chosenQuantity;
+      let totalPrice = chosenProducts.price * chosenQuantity;
       if(chosenQuantity < chosenProducts.stock_quantity){
         connection.query(
           "UPDATE products SET ? WHERE ?",
           [
             {
-              stock_quantity: newQuantity
+              stock_quantity: newQuantity,
+              product_sales: totalPrice
             }, {
               item_id: chosenId
             }
@@ -79,7 +81,7 @@ function buyProducts(){
           function(err) {
             if (err) throw err;
             // total
-            console.log(`\nYour order has completed\n`);
+            console.log(`\nYour order has completed, \n`);
           }
         ); 
       } else {

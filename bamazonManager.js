@@ -26,11 +26,11 @@ function listMenu() {
   connection.query("SELECT * FROM products", function(err, res) {
     if (err) throw err;
     console.log("\n Welcome to Bamazon\n");
-    menuProducts();
+    productsMenu();
   });
 }
 
-function menuProducts() {
+function productsMenu() {
   inquirer
   .prompt([ 
     {
@@ -62,7 +62,7 @@ function viewProducts() {
       console.log(res[i].item_id + "|" + res[i].product_name + "|" + res[i].department_name + "|" + res[i].price + "|" +res[i].stock_quantity);
     }
     console.log("\n");
-    menuProducts();
+    productsMenu();
   });
 }
 
@@ -78,7 +78,7 @@ function viewlowInventory() {
     }
     // Do i have to put if else statement for low inventory?
     console.log("\n");
-    menuProducts();
+    productsMenu();
   });
 }
 
@@ -125,7 +125,7 @@ function addToInventory() {
         function(err) {
           if (err) throw err; 
             console.log(`\nSuccessfully, We have ${newQuantity} of ${chosenProducts.product_name}\n`);
-            menuProducts();
+            productsMenu();
         }
       ); 
     });
@@ -178,7 +178,7 @@ function addNewProduct() {
         function(err) {
           if (err) throw err; 
             console.log(`\n You successfully added ${answers.productQuantity} units of ${answers.productName}\n`);
-            menuProducts();
+            productsMenu();
         }
       );
     });    
