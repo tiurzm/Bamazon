@@ -13,7 +13,7 @@ const connection = mysql.createConnection({
 
   // Your password
   password: "password",
-  database: "departments_DB"
+  database: "bamazon_DB"
 });
 
 connection.connect(function(err) {
@@ -42,6 +42,6 @@ function departmentsMenu() {
     });
 }
 
-function viewDepartment() {
-    
-}
+// function viewDepartment() {
+
+// }

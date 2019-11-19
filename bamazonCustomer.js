@@ -81,7 +81,7 @@ function buyProducts(){
           function(err) {
             if (err) throw err;
             // total
-            console.log(`\nYour order has completed, \n`);
+            console.log(`\nYour order has completed\n`);
           }
         ); 
       } else {

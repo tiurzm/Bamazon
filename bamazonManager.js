@@ -76,6 +76,12 @@ function viewlowInventory() {
         console.log(`${res[i].product_name}| ${res[i].stock_quantity}`);
       }
     }
+    // let lowInventory =  res.map(row => row.stock_quantity);
+    // if (lowInventory < 5) {
+    //   console.log(lowInventory.stock_quantity + " " + lowInventory.product_name )
+    // } else {
+    //   console.log("we are good"); 
+    // }
     // Do i have to put if else statement for low inventory?
     console.log("\n");
     productsMenu();
