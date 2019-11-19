@@ -79,11 +79,11 @@ function buyProducts(){
           function(err) {
             if (err) throw err;
             // total
-            console.log("Successfully");
+            console.log(`\nYour order has completed\n`);
           }
         ); 
       } else {
-        console.log("Insufficient quantity");
+        console.log("\nInsufficient quantity\n");
       }
       connection.end();
     });
