@@ -1,7 +1,6 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 
-
 const connection = mysql.createConnection({
   host: "localhost",
 
@@ -73,15 +72,9 @@ function viewlowInventory() {
     console.log("\nLow Inventory\n-------------");
     for (let i = 0; i < res.length; i++){
       if(res[i].stock_quantity < 5){
-        console.log(`${res[i].product_name}| ${res[i].stock_quantity}`);
+        console.log(`${res[i].item_id}| ${res[i].product_name}| ${res[i].stock_quantity}`);
       }
     }
-    // let lowInventory =  res.map(row => row.stock_quantity);
-    // if (lowInventory < 5) {
-    //   console.log(lowInventory.stock_quantity + " " + lowInventory.product_name )
-    // } else {
-    //   console.log("we are good"); 
-    // }
     // Do i have to put if else statement for low inventory?
     console.log("\n");
     productsMenu();
