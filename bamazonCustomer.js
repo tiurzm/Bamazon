@@ -1,6 +1,6 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
-
+const table = require("console.table");
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -25,10 +25,8 @@ connection.connect(function(err) {
 function displayProducts() {
   connection.query("SELECT * FROM products", function(err, res) {
     if (err) throw err;
-      console.log("\n Welcome to Bamazon\n--------------------");
-      for (let i = 0; i < res.length; i++){
-        console.log(`${res[i].item_id}| ${res[i].product_name}| ${res[i].department_name}| ${res[i].price}| ${res[i].stock_quantity}`);
-      }
+      console.log("\nWelcome to Bamazon");
+      console.table(res);
       console.log("\n");
       buyProducts();
   });
@@ -81,7 +79,7 @@ function buyProducts(){
           function(err) {
             if (err) throw err;
             // total
-            console.log(`\nYour order has completed\n`);
+            console.log(`\nYour order has completed. Total = $${totalPrice}\n`);
           }
         ); 
       } else {

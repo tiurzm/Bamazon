@@ -1,5 +1,6 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+const table = require("console.table");
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -57,9 +58,10 @@ function viewProducts() {
   connection.query("SELECT * FROM products", function(err, res) {
     if (err) throw err;
     console.log("\n Bamazon's Products \n --------------------");
-    for (let i = 0; i < res.length; i++){
-      console.log(res[i].item_id + "|" + res[i].product_name + "|" + res[i].department_name + "|" + res[i].price + "|" +res[i].stock_quantity);
-    }
+    console.table(res);
+    // for (let i = 0; i < res.length; i++){
+    //   console.log(res[i].item_id + "|" + res[i].product_name + "|" + res[i].department_name + "|" + res[i].price + "|" +res[i].stock_quantity);
+    // }
     console.log("\n");
     productsMenu();
   });
@@ -72,10 +74,9 @@ function viewlowInventory() {
     console.log("\nLow Inventory\n-------------");
     for (let i = 0; i < res.length; i++){
       if(res[i].stock_quantity < 5){
-        console.log(`${res[i].item_id}| ${res[i].product_name}| ${res[i].stock_quantity}`);
+        console.table(`${res[i].item_id}| ${res[i].product_name}| ${res[i].stock_quantity}`);
       }
     }
-    // Do i have to put if else statement for low inventory?
     console.log("\n");
     productsMenu();
   });
