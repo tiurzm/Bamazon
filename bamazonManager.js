@@ -59,24 +59,16 @@ function viewProducts() {
     if (err) throw err;
     console.log("\n Bamazon's Products \n --------------------");
     console.table(res);
-    // for (let i = 0; i < res.length; i++){
-    //   console.log(res[i].item_id + "|" + res[i].product_name + "|" + res[i].department_name + "|" + res[i].price + "|" +res[i].stock_quantity);
-    // }
     console.log("\n");
     productsMenu();
   });
 }
 
 function viewlowInventory() {
-  connection.query("SELECT * FROM products", function(err, res) {
+  connection.query("SELECT item_id, product_name, department_name, stock_quantity FROM products WHERE stock_quantity < 5", function(err, res){
     if (err) throw err;
-    // console.log(res);
     console.log("\nLow Inventory\n-------------");
-    for (let i = 0; i < res.length; i++){
-      if(res[i].stock_quantity < 5){
-        console.table(`${res[i].item_id}| ${res[i].product_name}| ${res[i].stock_quantity}`);
-      }
-    }
+    console.table(res);
     console.log("\n");
     productsMenu();
   });

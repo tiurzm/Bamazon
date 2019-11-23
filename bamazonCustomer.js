@@ -23,24 +23,46 @@ connection.connect(function(err) {
 });
   
 function displayProducts() {
-  connection.query("SELECT * FROM products", function(err, res) {
+  connection.query("SELECT item_id, product_name, department_name, price, stock_quantity FROM products", function(err, res) {
     if (err) throw err;
       console.log("\nWelcome to Bamazon");
       console.table(res);
       console.log("\n");
-      buyProducts();
+      exit();
+  });
+}
+
+function exit() {
+  connection.query("SELECT item_id, product_name, department_name, price, stock_quantity FROM products", function(err, res) {
+    if (err) throw err;
+    inquirer
+    .prompt([
+      {
+        name: "confirm",
+        type: "confirm",
+        message: "Would you like to buy something?",
+        default: true
+      }
+    ]).then(function(answers){
+      if(answers.confirm) {
+        buyProducts();
+      } else {
+        console.log("\nCome again anytime\n");
+        connection.end();
+      }
+    })
   });
 }
 
 function buyProducts(){
-  connection.query("SELECT * FROM products", function(err, res){
+  connection.query("SELECT item_id, product_name, department_name, price, stock_quantity FROM products", function(err, res){
     if (err) throw err;
     inquirer
     .prompt([ 
       {
         name: "buy",
         type: "input",
-        message: "Would you like to buy something? Please enter the item id!",
+        message: "Please enter the item id!",
         validate: function(value){
           if(isNaN(value) === false){
             return true;
@@ -65,27 +87,27 @@ function buyProducts(){
       // console.log(chosenProducts);
       let newQuantity = chosenProducts.stock_quantity - chosenQuantity;
       let totalPrice = chosenProducts.price * chosenQuantity;
-      if(chosenQuantity < chosenProducts.stock_quantity){
-        connection.query(
-          "UPDATE products SET ? WHERE ?",
-          [
-            {
-              stock_quantity: newQuantity,
-              product_sales: totalPrice
-            }, {
-              item_id: chosenId
+        if(chosenQuantity <= chosenProducts.stock_quantity){
+          connection.query(
+            "UPDATE products SET ? WHERE ?",
+            [
+              {
+                stock_quantity: newQuantity,
+                product_sales: totalPrice
+              }, {
+                item_id: chosenId
+              }
+            ],
+            function(err) {
+              if (err) throw err;
+              // total
+              console.log(`\nYour order has completed. Total = $${totalPrice}\n`);
             }
-          ],
-          function(err) {
-            if (err) throw err;
-            // total
-            console.log(`\nYour order has completed. Total = $${totalPrice}\n`);
-          }
-        ); 
-      } else {
-        console.log("\nInsufficient quantity\n");
-      }
-      connection.end();
+          ); 
+        } else {
+          console.log("\nInsufficient quantity\n");
+        }
+        connection.end();
     });
   });
 }

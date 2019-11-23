@@ -9,20 +9,28 @@ CREATE TABLE products (
   `department_name` VARCHAR(100) NULL,
   `price` DECIMAL(4,2) NULL,
   `stock_quantity` INT,
-  `product_sales` INT,
+  `product_sales` INT DEFAULT "0",
   PRIMARY KEY (item_id)
 );
 
 CREATE TABLE departments_data (
   `department_id` INT AUTO_INCREMENT NOT NULL,
-  `department_name` VARCHAR(100) NULL,
-  `over_head_costs` INT,
+  -- `department_id` INT,
+  `departments_name` VARCHAR(100) NULL,
+  `over_head_costs` INT DEFAULT "0", 
   PRIMARY KEY (department_id)
 );
 
-INSERT INTO products (product_name, department_name, price, stock_quantity, product_sales)
-VALUES ("Blenders", "Kitchen", 24.49, 30, 0), ("Baby Doll", "Toys", 16.99, 22, 0), ("Sneakers", "Shoes", 23, 15, 0), ("Floor Mats", "Home", 14.24, 27, 0), ("Dog Food", "Pets", 12.39, 35, 0), ("Bodysuits", "Baby", 14.95, 19, 0), ("Lipstick", "Beauty", 7.89, 20, 0), ("Chairs", "Furniture", 40, 31, 0), ("Games", "Video Games", 48, 24, 0), ("Blu-ray Movies", "Movies", 23.49, 10, 0);
+INSERT INTO products (product_name, department_name, price, stock_quantity)
+VALUES ("Floor Mats", "Home", 14.24, 27), ("Lipstick", "Beauty", 7.89, 20), ("Blenders", "Kitchen", 24.49, 30), ("Games", "Video Games", 48, 24), ("Baby Doll", "Toys", 16.99, 22), ("Chairs", "Furniture", 40, 31), ("Sneakers", "Shoes", 23, 15), ("Dog Food", "Pets", 12.39, 35), ("Bodysuits", "Baby", 14.95, 19), ("Blu-ray Movies", "Movies", 23.49, 10), ("Boots", "Shoes", 38, 20);
 
+INSERT INTO departments_data (departments_name)
+VALUES ("Kitchen"), ("Home"), ("Furniture"), ("Toys"), ("Beauty"), ("Baby"), ("Shoes"), ("Pets"), ("Video Games"), ("Movies");
 
 SELECT * FROM products;
 SELECT * FROM departments_data;
+
+
+SELECT department_id, departments_name, over_head_costs, product_sales
+FROM products 
+INNER JOIN departments_data ON products.department_name = departments_data.departments_name;
