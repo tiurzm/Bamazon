@@ -102,7 +102,7 @@ function buyProducts(){
                 }
               ); 
             }     else {
-              console.log("\nI am sorry, we are out of stock\n");
+              console.log("\nI am sorry, we don't have enough stock");
             }
             connection.end();
       });
