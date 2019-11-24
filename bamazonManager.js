@@ -158,14 +158,21 @@ function addNewProduct() {
         }
       }
     ]).then(function(answers){
-      connection.query(
-        "INSERT INTO products SET ?",
-        {
-          product_name: answers.productName,
-          department_name: answers.departmentName,
-          price: answers.productPrice,
-          stock_quantity: answers.productQuantity
-        },
+      connection.query("INSERT INTO departments_data SET ?",
+      {
+        departments_name: answers.departmentName,
+      },
+        function(err) {
+          if (err) throw err;
+        }
+      );
+      connection.query("INSERT INTO products SET ?", 
+      {
+        product_name: answers.productName,
+        department_name: answers.departmentName,
+        price: answers.productPrice,
+        stock_quantity: answers.productQuantity
+      },
         function(err) {
           if (err) throw err; 
             console.log(`\n You successfully added ${answers.productQuantity} units of ${answers.productName}\n`);
