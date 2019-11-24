@@ -18,7 +18,7 @@ const connection = mysql.createConnection({
 
 connection.connect(function(err) {
     if (err) throw err;
-    // console.log("connected as id " + connection.threadId);
+    console.log("connected successfully");
     displayProducts();
 });
   
@@ -33,9 +33,7 @@ function displayProducts() {
 }
 
 function exit() {
-  connection.query("SELECT item_id, product_name, department_name, price, stock_quantity FROM products", function(err, res) {
-    if (err) throw err;
-    inquirer
+  inquirer
     .prompt([
       {
         name: "confirm",
@@ -44,20 +42,17 @@ function exit() {
         default: true
       }
     ]).then(function(answers){
-      if(answers.confirm) {
-        buyProducts();
-      } else {
-        console.log("\nCome again anytime\n");
-        connection.end();
-      }
-    })
-  });
+        if(answers.confirm) {
+          buyProducts();
+        } else {
+          console.log("\nCome again anytime\n");
+          connection.end();
+        }
+    });
 }
 
 function buyProducts(){
-  connection.query("SELECT item_id, product_name, department_name, price, stock_quantity FROM products", function(err, res){
-    if (err) throw err;
-    inquirer
+  inquirer
     .prompt([ 
       {
         name: "buy",
@@ -81,35 +76,37 @@ function buyProducts(){
         }
       }
     ]).then(function(answers){
-      let chosenId = parseFloat(answers.buy);
-      let chosenQuantity = parseFloat(answers.quantity);
-      let chosenProducts = res.find(row => row.item_id === chosenId); 
-      // console.log(chosenProducts);
-      let newQuantity = chosenProducts.stock_quantity - chosenQuantity;
-      let totalPrice = chosenProducts.price * chosenQuantity;
-        if(chosenQuantity <= chosenProducts.stock_quantity){
-          connection.query(
-            "UPDATE products SET ? WHERE ?",
-            [
-              {
-                stock_quantity: newQuantity,
-                product_sales: totalPrice
-              }, {
-                item_id: chosenId
-              }
-            ],
-            function(err) {
-              if (err) throw err;
-              // total
-              console.log(`\nYour order has completed. Total = $${totalPrice}\n`);
+      connection.query("SELECT item_id, product_name, department_name, price, stock_quantity FROM products", function(err, res){
+        if (err) throw err;
+          let chosenId = parseFloat(answers.buy);
+          let chosenQuantity = parseFloat(answers.quantity);
+          let chosenProducts = res.find(row => row.item_id === chosenId); 
+          // console.log(chosenProducts);
+          let newQuantity = chosenProducts.stock_quantity - chosenQuantity;
+          let totalPrice = chosenProducts.price * chosenQuantity;
+            if(chosenQuantity <= chosenProducts.stock_quantity){
+              connection.query(
+                "UPDATE products SET ? WHERE ?",
+                [
+                  {
+                    stock_quantity: newQuantity,
+                    product_sales: totalPrice
+                  }, {
+                    item_id: chosenId
+              }   
+                ],
+                function(err) {
+                  if (err) throw err;
+                  // total
+                  console.log(`\nYour order has completed. Total = $${totalPrice}\n`);
+                }
+              ); 
+            }     else {
+              console.log("\nI am sorry, we are out of stock\n");
             }
-          ); 
-        } else {
-          console.log("\nInsufficient quantity\n");
-        }
-        connection.end();
+            connection.end();
+      });
     });
-  });
 }
 
 

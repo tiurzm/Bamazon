@@ -18,7 +18,7 @@ const connection = mysql.createConnection({
 
 connection.connect(function(err) {
     if (err) throw err;
-    // console.log("connected as id " + connection.threadId);
+    console.log("connected successfully");
     listMenu();
   });
   
@@ -75,8 +75,7 @@ function viewlowInventory() {
 }
 
 function addToInventory() {
-  connection.query("SELECT * FROM products", function(err, res) {
-    if (err) throw err;
+  
     inquirer
     .prompt([ 
       {
@@ -101,32 +100,32 @@ function addToInventory() {
         }
       }
     ]).then(function(answers){
-      let chosenId = parseFloat(answers.addInventory);
-      let chosenQuantity = parseFloat(answers.quantity);
-      let chosenProducts = res.find(row => row.item_id === chosenId); 
-      let newQuantity = chosenQuantity + chosenProducts.stock_quantity;
-      connection.query(
-        "UPDATE products SET ? WHERE ?",
-        [
-          {
-            stock_quantity: newQuantity
-          }, {
-            item_id: chosenId
-          }
-        ],
-        function(err) {
-          if (err) throw err; 
-            console.log(`\nSuccessfully, We have ${newQuantity} of ${chosenProducts.product_name}\n`);
-            productsMenu();
-        }
-      ); 
-    });
+      connection.query("SELECT * FROM products", function(err, res) {
+        if (err) throw err;
+          let chosenId = parseFloat(answers.addInventory);
+          let chosenQuantity = parseFloat(answers.quantity);
+          let chosenProducts = res.find(row => row.item_id === chosenId); 
+          let newQuantity = chosenQuantity + chosenProducts.stock_quantity;
+          connection.query(
+            "UPDATE products SET ? WHERE ?",
+            [
+              {
+                stock_quantity: newQuantity
+              }, {
+                item_id: chosenId
+              }
+            ],
+            function(err) {
+              if (err) throw err; 
+                console.log(`\nSuccessfully, We have ${newQuantity} of ${chosenProducts.product_name}\n`);
+                productsMenu();
+            }
+          ); 
+      });
   });
 }
 
 function addNewProduct() {
-  connection.query("SELECT * FROM products", function(err, res) {
-    if (err) throw err;
     inquirer
     .prompt([ 
       {
@@ -174,5 +173,4 @@ function addNewProduct() {
         }
       );
     });    
-  });
 }

@@ -18,7 +18,7 @@ const connection = mysql.createConnection({
 
 connection.connect(function(err) {
     if (err) throw err;
-    console.log("connected as id " + connection.threadId);
+    console.log("connected successfully");
     departmentsMenu();
 });
 
@@ -43,7 +43,8 @@ function departmentsMenu() {
 }
 
 function viewDepartment() {
-    connection.query("SELECT * FROM departments_data", function(err, res) {
+    const query = "SELECT department_id, departments_name, over_head_costs, COALESCE(product_sales, 0) AS product_sales FROM products RIGHT JOIN departments_data ON products.department_name = departments_data.departments_name ORDER BY department_id;";
+    connection.query(query, function(err, res) {
         if (err) throw err;
           console.log("\nWelcome to Bamazon");
           console.table(res);
@@ -53,9 +54,7 @@ function viewDepartment() {
 }
 
 function createDepartment() {
-    connection.query("SELECT * FROM departments_data", function(err, res) {
-        if (err) throw err;
-        inquirer 
+    inquirer 
         .prompt([
             {
                 name: "departmentName",
@@ -66,15 +65,14 @@ function createDepartment() {
             connection.query(
                 "INSERT INTO departments_data SET ?",
                 {
-                    departments_name: answers.departmentName
+                    departments_name: answers.departmentName,
                 },
                 function(err) {
                     if (err) throw err; 
-                        console.log(`\n You successfully added a new department`);
+                        console.log(`\n You successfully added a new department\n`);
                         departmentsMenu();
                 }
             );
-        });
     });
 }
 
