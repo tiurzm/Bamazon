@@ -1,6 +1,6 @@
 # Bamazon
 
-This is a storefront node application that allows users to buy some products, managers and supervisors to check the inventory.
+This is a storefront node application that allows costumers to buy some products, managers and supervisors to check the inventory.
 
 ## How to use it:
 
