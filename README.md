@@ -18,6 +18,7 @@ This is a storefront node application that allows users to buy some products, ma
 
 **3. Run node bamazonSupervisor.js for supervisors**
 ![manager](/assets/img/9.png)
+
 **A supervisor is able to view product sales by department and create a new department.**
 ![manager](/assets/img/7.png)
 ![manager](/assets/img/8.png)
