@@ -9,7 +9,7 @@ This is a storefront node application that allows users to buy some products, ma
 
 **2. Run node bamazonManager.js for managers.**
 ![manager](/assets/img/2.png)
- A Manager is able to view products for sale, view low inventory, add to inventory and add new product. 
+ **A Manager is able to view products for sale, view low inventory, add to inventory and add new product.** 
 ![manager](/assets/img/3.png)
 ![manager](/assets/img/4.png)
 ![manager](/assets/img/5.png)
