@@ -83,7 +83,7 @@ function buyProducts(){
           let chosenProducts = res.find(row => row.item_id === chosenId); 
           // console.log(chosenProducts);
           let newQuantity = chosenProducts.stock_quantity - chosenQuantity;
-          let totalPrice = chosenProducts.price * chosenQuantity;
+          let totalPrice = (chosenProducts.price * chosenQuantity).toFixed();
             if(chosenQuantity <= chosenProducts.stock_quantity){
               connection.query(
                 "UPDATE products SET ? WHERE ?",
